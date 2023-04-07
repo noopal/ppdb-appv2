@@ -2104,10 +2104,10 @@ var Home = function Home() {
 
 /***/ }),
 
-/***/ "./resources/js/Pages/User.jsx":
-/*!*************************************!*\
-  !*** ./resources/js/Pages/User.jsx ***!
-  \*************************************/
+/***/ "./resources/js/Pages/Users.jsx":
+/*!**************************************!*\
+  !*** ./resources/js/Pages/Users.jsx ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2119,11 +2119,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
-var User = function User() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
+
+var User = function User(_ref) {
+  var users = _ref.users,
+    create_url = _ref.create_url;
+  console.log("users", users);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
       children: "Test"
-    })
+    }), users.map(function (user) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+          children: user.id
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+          children: user.name
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+          children: user.email
+        })]
+      }, user.id);
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (User);
@@ -37661,8 +37675,8 @@ module.exports = function getSideChannel() {
 var map = {
 	"./Home": "./resources/js/Pages/Home.jsx",
 	"./Home.jsx": "./resources/js/Pages/Home.jsx",
-	"./User": "./resources/js/Pages/User.jsx",
-	"./User.jsx": "./resources/js/Pages/User.jsx"
+	"./Users": "./resources/js/Pages/Users.jsx",
+	"./Users.jsx": "./resources/js/Pages/Users.jsx"
 };
 
 

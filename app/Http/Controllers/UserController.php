@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -13,7 +15,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $Users = User::all();
+        return Inertia::render('Users', [
+            'users' => $Users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'edit_url' => route('users.edit', $user->id),
+                ];
+            }),
+            'create_url' => route('users.create'),
+        ]);
     }
 
     /**
