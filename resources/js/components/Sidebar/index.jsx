@@ -1,18 +1,10 @@
 import React from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
 
-const parsePage = (path) => path.substring(path.lastIndexOf("/"));
+const parsePage = (path) => path.split("/");
 const Sidebar = () => {
+    console.log(pageActive);
     let pageActive = parsePage(window.location.pathname);
-    const [count, setCount] = React.useState(0);
-    React.useEffect(() => {
-        let interval = setInterval(() => {
-            setCount((count) => count + 1);
-        }, 1000);
-        return function () {
-            clearInterval(interval);
-        };
-    });
 
     const Menus = [
         { menu: "Home", href: "/" },
@@ -22,13 +14,16 @@ const Sidebar = () => {
 
     return (
         <React.Fragment>
-            <div className="text-white">
-                <p className="text-2xl">{count}</p>
+            <div className="h-screen text-white">
                 <div className="flex justify-center items-center p-2">
                     <p className="text-2xl font-semibold ">Transfer</p>
                 </div>
                 {Menus.map((menu, index) => (
-                    <Menu pageActive={pageActive} key={index} href={menu.href}>
+                    <Menu
+                        pageActive={`/${pageActive[1]}`}
+                        key={index}
+                        href={menu.href}
+                    >
                         {menu.menu}
                     </Menu>
                 ))}

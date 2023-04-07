@@ -17,14 +17,15 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Home');
-});
-
-Route::get('/users', function () {
-    return Inertia::render('User');
-});
+})->name('home');
 
 Route::get('/profile', function () {
     return Inertia::render('Profile');
-});
+})->name('profile');
 
 Route::resource('/users', UserController::class);
+
+Route::get('/users/create', function () {
+    return Inertia::render('CreateUsers');
+})->name('users.create');
+Route::post('/users/post', [UserController::class, 'store'])->name('users.post');
