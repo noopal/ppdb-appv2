@@ -19,8 +19,12 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 
-// Route::get('/users', function () {
-//     return Inertia::render('User');
-// });
+Route::get('/users', function () {
+    return Inertia::render('User');
+});
+
+Route::get('/profile', function () {
+    return Inertia::render('Profile');
+});
 
 Route::resource('/users', UserController::class);

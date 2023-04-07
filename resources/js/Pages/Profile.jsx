@@ -2,17 +2,16 @@ import React from "react";
 import Layout from "../components/Layout";
 import { Helmet } from "react-helmet";
 
-const Home = () => {
+const Profile = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Home</title>
+                <title>Profile</title>
             </Helmet>
-            <h1>Test</h1>
+            <h1>Profile</h1>
         </React.Fragment>
     );
 };
+Profile.layout = (page) => <Layout children={page} />;
 
-Home.layout = (page) => <Layout children={page} />;
-
-export default Home;
+export default Profile;
