@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -52,8 +53,15 @@ class UserController extends Controller
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'confirmed'],
-            'password_confirmation' => ['required'],
+            'image' => ['required', 'mimes:png,jpg,jpeg']
         ]);
+
+        $extFile = $request->image->getClientOriginalExtension();
+        $namaFile = 'spa' . time() . "." . $extFile;
+        $image = $request->image->move('images', $namaFile);
+
+        $post['image'] = $image;
+        $post['password'] = Hash::make($request->password);
 
         User::create($post);
         return Redirect::route('users.index');
