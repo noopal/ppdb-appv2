@@ -2127,12 +2127,37 @@ var CreateUsers = function CreateUsers(_ref) {
     _React$useState2 = _slicedToArray(_React$useState, 2),
     values = _React$useState2[0],
     setValues = _React$useState2[1];
+  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: ""
+    }),
+    _React$useState4 = _slicedToArray(_React$useState3, 1),
+    error = _React$useState4[0];
+  var regExp = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
   var handleChange = function handleChange(e) {
     var key = e.target.id;
     var value = e.target.value;
     setValues(function (values) {
       return _objectSpread(_objectSpread({}, values), {}, _defineProperty({}, key, value));
     });
+    switch (key) {
+      case "name":
+        error.name = value === "" ? "Nama tidak boleh kosong" : "";
+        break;
+      case "email":
+        error.email = value === "" ? "Email tidak boleh kosong" : regExp.test(value) ? "" : "Format email salah";
+        break;
+      case "password":
+        error.password = value === "" ? "Password tidak boleh kosong" : value.length < 8 ? "Password minimal 8 karakter" : "";
+        break;
+      case "password_confirmation":
+        error.password_confirmation = value === "" ? "Password Confirmation tidak boleh kosong" : value.length < 8 ? "Password Confirmation minimal 8 karakter" : "";
+        break;
+      default:
+        break;
+    }
   };
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
@@ -2142,11 +2167,20 @@ var CreateUsers = function CreateUsers(_ref) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           position: "center",
           icon: "success",
-          title: "Your work has been saved",
+          title: "Data user berhasil ditambahkan",
           showConfirmButton: true
         });
       }
     });
+  };
+  var buttonDisabled = function buttonDisabled() {
+    if (values.name === "" || values.email === "" || values.password === "" || values.password_confirmation === "") {
+      return true;
+    } else if (values.password !== values.password_confirmation) {
+      return true;
+    } else {
+      return false;
+    }
   };
   var styles = {
     classNameInput: "my-1 flex w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200",
@@ -2178,12 +2212,15 @@ var CreateUsers = function CreateUsers(_ref) {
         }), errors.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: styles.classNameErros,
           children: errors.name
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: styles.classNameErros,
+          children: error.name
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
           htmlFor: "email",
           className: styles.classNameLabel,
-          children: "Nama"
+          children: "Email"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
           type: "text",
           id: "email",
@@ -2194,12 +2231,15 @@ var CreateUsers = function CreateUsers(_ref) {
         }), errors.email && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: styles.classNameErros,
           children: errors.email
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: styles.classNameErros,
+          children: error.email
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
           htmlFor: "password",
           className: styles.classNameLabel,
-          children: "Nama"
+          children: "Password"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
           type: "text",
           id: "password",
@@ -2210,6 +2250,9 @@ var CreateUsers = function CreateUsers(_ref) {
         }), errors.password && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: styles.classNameErros,
           children: errors.password
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: styles.classNameErros,
+          children: error.password
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
@@ -2226,11 +2269,15 @@ var CreateUsers = function CreateUsers(_ref) {
         }), errors.password_confirmation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: styles.classNameErros,
           children: errors.password_confirmation
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: styles.classNameErros,
+          children: values.password !== values.password_confirmation ? "Password dan Password Confirmation tidak sama" : ""
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "submit",
-          className: "w-full bg-blue-500 text-white text-lg font-semibold py-1",
+          className: "w-full ".concat(buttonDisabled() ? "bg-blue-200" : "bg-blue-500"),
+          disabled: buttonDisabled,
           children: "Register"
         })
       })]

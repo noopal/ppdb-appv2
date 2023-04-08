@@ -12,6 +12,13 @@ const CreateUsers = ({ errors }) => {
         password: "",
         password_confirmation: "",
     });
+    const [error] = React.useState({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+    });
+    const regExp = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
     const handleChange = (e) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -19,6 +26,38 @@ const CreateUsers = ({ errors }) => {
             ...values,
             [key]: value,
         }));
+
+        switch (key) {
+            case "name":
+                error.name = value === "" ? "Nama tidak boleh kosong" : "";
+                break;
+            case "email":
+                error.email =
+                    value === ""
+                        ? "Email tidak boleh kosong"
+                        : regExp.test(value)
+                        ? ""
+                        : "Format email salah";
+                break;
+            case "password":
+                error.password =
+                    value === ""
+                        ? "Password tidak boleh kosong"
+                        : value.length < 8
+                        ? "Password minimal 8 karakter"
+                        : "";
+                break;
+            case "password_confirmation":
+                error.password_confirmation =
+                    value === ""
+                        ? "Password Confirmation tidak boleh kosong"
+                        : value.length < 8
+                        ? "Password Confirmation minimal 8 karakter"
+                        : "";
+                break;
+            default:
+                break;
+        }
     };
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,11 +67,25 @@ const CreateUsers = ({ errors }) => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Your work has been saved",
+                    title: "Data user berhasil ditambahkan",
                     showConfirmButton: true,
                 });
             },
         });
+    };
+    const buttonDisabled = () => {
+        if (
+            values.name === "" ||
+            values.email === "" ||
+            values.password === "" ||
+            values.password_confirmation === ""
+        ) {
+            return true;
+        } else if (values.password !== values.password_confirmation) {
+            return true;
+        } else {
+            return false;
+        }
     };
     const styles = {
         classNameInput:
@@ -64,10 +117,11 @@ const CreateUsers = ({ errors }) => {
                             {errors.name}
                         </div>
                     )}
+                    <div className={styles.classNameErros}>{error.name}</div>
                 </div>
                 <div>
                     <label htmlFor="email" className={styles.classNameLabel}>
-                        Nama
+                        Email
                     </label>
                     <input
                         type="text"
@@ -82,10 +136,11 @@ const CreateUsers = ({ errors }) => {
                             {errors.email}
                         </div>
                     )}
+                    <div className={styles.classNameErros}>{error.email}</div>
                 </div>
                 <div>
                     <label htmlFor="password" className={styles.classNameLabel}>
-                        Nama
+                        Password
                     </label>
                     <input
                         type="text"
@@ -100,6 +155,9 @@ const CreateUsers = ({ errors }) => {
                             {errors.password}
                         </div>
                     )}
+                    <div className={styles.classNameErros}>
+                        {error.password}
+                    </div>
                 </div>
                 <div>
                     <label
@@ -121,11 +179,19 @@ const CreateUsers = ({ errors }) => {
                             {errors.password_confirmation}
                         </div>
                     )}
+                    <div className={styles.classNameErros}>
+                        {values.password !== values.password_confirmation
+                            ? "Password dan Password Confirmation tidak sama"
+                            : ""}
+                    </div>
                 </div>
                 <div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white text-lg font-semibold py-1"
+                        className={`w-full ${
+                            buttonDisabled() ? "bg-blue-200" : "bg-blue-500"
+                        }`}
+                        disabled={buttonDisabled}
                     >
                         Register
                     </button>
