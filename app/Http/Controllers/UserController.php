@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -24,10 +25,9 @@ class UserController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'edit_url' => route('users.edit', $user->id),
+                    'image' => $user->image,
                 ];
             }),
-            'create_url' => route('users.create'),
         ]);
     }
 
@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('CreateUsers');
     }
 
     /**
@@ -53,6 +53,7 @@ class UserController extends Controller
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'confirmed'],
+            'password_confirmation' => ['required'],
             'image' => ['required', 'mimes:png,jpg,jpeg']
         ]);
 
@@ -86,7 +87,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Users = User::find($id);
+        return Inertia::render('CreateUsers', [
+            'editUsers' => $Users
+        ]);
     }
 
     /**
@@ -98,7 +102,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $put = $this->validate($request, [
+            'name' => ['required'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
+            'image' => ['image', 'mimes:png,jpg,jpeg']
+        ]);
+
+        $extFile = $request->image->getClientOriginalExtension();
+        $namaFile = 'spa' . time() . "." . $extFile;
+        $image = $request->image->move('images', $namaFile);
+
+        $put['image'] = $image;
+
+        User::where('id', $id)->update($put);
+        return Redirect::route('users.index');
     }
 
     /**

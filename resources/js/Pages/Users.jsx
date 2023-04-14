@@ -2,6 +2,7 @@ import { InertiaLink } from "@inertiajs/inertia-react";
 import React from "react";
 import Layout from "../components/Layout";
 import { Helmet } from "react-helmet";
+import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 
 const Users = ({ users, create_url }) => {
     return (
@@ -53,12 +54,16 @@ const Users = ({ users, create_url }) => {
                                     </div>
                                 </th>
                                 <td className="flex gap-3 items-center px-6 py-4">
-                                    {/* <div className="relative h-10 w-10">
-                                        <img
-                                            className="h-full w-full rounded-full object-cover object-center"
-                                            src={user.image}
-                                        />
-                                    </div> */}
+                                    <div className="relative h-10 w-10">
+                                        <SimpleReactLightbox>
+                                            <SRLWrapper>
+                                                <img
+                                                    className="h-10 w-full rounded-full object-cover object-center border border-gray-200"
+                                                    src={user.image}
+                                                />
+                                            </SRLWrapper>
+                                        </SimpleReactLightbox>
+                                    </div>
                                     <div className="text-sm">
                                         <div className="font-medium text-gray-700">
                                             {user.name}
@@ -95,7 +100,7 @@ const Users = ({ users, create_url }) => {
                                             </svg>
                                         </InertiaLink>
                                         <InertiaLink
-                                        // href={route("users.edit", user.id)}
+                                            href={route("users.edit", user.id)}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

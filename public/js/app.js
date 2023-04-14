@@ -2175,26 +2175,32 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateUsers = function CreateUsers(_ref) {
-  var errors = _ref.errors;
+  var errors = _ref.errors,
+    editUsers = _ref.editUsers;
   console.log(errors);
+  console.log(editUsers);
   var imageRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState({
-      name: "",
-      email: "",
-      password: "",
-      password_confirmation: ""
-    }),
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(base_url + "/" + (editUsers === null || editUsers === void 0 ? void 0 : editUsers.image) || ""),
     _React$useState2 = _slicedToArray(_React$useState, 2),
-    values = _React$useState2[0],
-    setValues = _React$useState2[1];
+    image = _React$useState2[0],
+    setImage = _React$useState2[1];
   var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState({
+      name: (editUsers === null || editUsers === void 0 ? void 0 : editUsers.name) || "",
+      email: (editUsers === null || editUsers === void 0 ? void 0 : editUsers.email) || "",
+      password: "",
+      password_confirmation: ""
+    }),
+    _React$useState4 = _slicedToArray(_React$useState3, 2),
+    values = _React$useState4[0],
+    setValues = _React$useState4[1];
+  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState({
       name: "",
       email: "",
       password: "",
       password_confirmation: ""
     }),
-    _React$useState4 = _slicedToArray(_React$useState3, 1),
-    error = _React$useState4[0];
+    _React$useState6 = _slicedToArray(_React$useState5, 1),
+    error = _React$useState6[0];
   var regExp = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
   var handleChange = function handleChange(e) {
     var key = e.target.id;
@@ -2227,12 +2233,33 @@ var CreateUsers = function CreateUsers(_ref) {
       formData.append(key, values[key]);
     }
     formData.append("image", imageRef.current.files[0]);
-    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__.Inertia.post(route("users.post"), formData, {
+    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__.Inertia.post(route("users.store"), formData, {
       onSuccess: function onSuccess() {
         sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
           position: "center",
           icon: "success",
           title: "Data user berhasil ditambahkan",
+          showConfirmButton: true
+        });
+      }
+    });
+  };
+  var handleUpdate = function handleUpdate(e) {
+    e.preventDefault();
+    console.log(values);
+    var formData = new FormData();
+    formData.append("id", editUsers.id);
+    for (var key in values) {
+      formData.append(key, values[key]);
+    }
+    formData.append("image", imageRef.current.files[0]);
+    formData.append("_method", "put");
+    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__.Inertia.post(route("users.update", editUsers.id), formData, {
+      onSuccess: function onSuccess() {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default().fire({
+          position: "center",
+          icon: "success",
+          title: "Data user berhasil diupdate",
           showConfirmButton: true
         });
       }
@@ -2247,10 +2274,13 @@ var CreateUsers = function CreateUsers(_ref) {
       return false;
     }
   };
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(""),
-    _React$useState6 = _slicedToArray(_React$useState5, 2),
-    image = _React$useState6[0],
-    setImage = _React$useState6[1];
+  var buttonDisabledUpdate = function buttonDisabledUpdate() {
+    if (values.name === "" || values.email === "") {
+      return true;
+    } else {
+      return false;
+    }
+  };
   var handleUpload = function handleUpload(e) {
     e.preventDefault();
     var reader = new FileReader();
@@ -2272,7 +2302,7 @@ var CreateUsers = function CreateUsers(_ref) {
         children: "Create Users"
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
-      children: "Create Users"
+      children: editUsers ? "Form Update Users" : "Form Registrasi User"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(simple_react_lightbox__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -2286,7 +2316,7 @@ var CreateUsers = function CreateUsers(_ref) {
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("form", {
         action: "post",
-        onSubmit: handleSubmit,
+        onSubmit: editUsers ? handleUpdate : handleSubmit,
         encType: "multipart/form-data",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
@@ -2326,43 +2356,45 @@ var CreateUsers = function CreateUsers(_ref) {
             className: styles.classNameErros,
             children: error.email
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-            htmlFor: "password",
-            className: styles.classNameLabel,
-            children: "Password"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-            type: "text",
-            id: "password",
-            className: styles.classNameInput,
-            value: values.password,
-            onChange: handleChange,
-            placeholder: "Password ...."
-          }), errors.password && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: styles.classNameErros,
-            children: errors.password
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: styles.classNameErros,
-            children: error.password
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-            htmlFor: "password_confirmation",
-            className: styles.classNameLabel,
-            children: "Nama"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-            type: "text",
-            id: "password_confirmation",
-            className: styles.classNameInput,
-            value: values.password_confirmation,
-            onChange: handleChange,
-            placeholder: "Password confirmation ...."
-          }), errors.password_confirmation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: styles.classNameErros,
-            children: errors.password_confirmation
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: styles.classNameErros,
-            children: values.password !== values.password_confirmation ? "Password dan Password Confirmation tidak sama" : ""
+        }), editUsers ? "" : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+              htmlFor: "password",
+              className: styles.classNameLabel,
+              children: "Password"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+              type: "text",
+              id: "password",
+              className: styles.classNameInput,
+              value: values.password,
+              onChange: handleChange,
+              placeholder: "Password ...."
+            }), errors.password && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: styles.classNameErros,
+              children: errors.password
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: styles.classNameErros,
+              children: error.password
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+              htmlFor: "password_confirmation",
+              className: styles.classNameLabel,
+              children: "Confirmation Password"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+              type: "text",
+              id: "password_confirmation",
+              className: styles.classNameInput,
+              value: values.password_confirmation,
+              onChange: handleChange,
+              placeholder: "Password confirmation ...."
+            }), errors.password_confirmation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: styles.classNameErros,
+              children: errors.password_confirmation
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              className: styles.classNameErros,
+              children: values.password !== values.password_confirmation ? "Password dan Password Confirmation tidak sama" : ""
+            })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
@@ -2385,9 +2417,9 @@ var CreateUsers = function CreateUsers(_ref) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
             type: "submit",
-            className: "w-full ".concat(buttonDisabled() ? "bg-blue-200" : "bg-blue-500"),
-            disabled: buttonDisabled(),
-            children: "Register"
+            className: "w-full ".concat((editUsers ? buttonDisabledUpdate() : buttonDisabled()) ? "bg-blue-200" : "bg-blue-500"),
+            disabled: editUsers ? buttonDisabledUpdate() : buttonDisabled(),
+            children: editUsers ? "Update" : "Register"
           })
         })]
       })]
@@ -2498,7 +2530,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Layout */ "./resources/js/components/Layout/index.jsx");
 /* harmony import */ var react_helmet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-helmet */ "./node_modules/react-helmet/es/Helmet.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var simple_react_lightbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! simple-react-lightbox */ "./node_modules/simple-react-lightbox/dist/index.es.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -2508,82 +2542,92 @@ __webpack_require__.r(__webpack_exports__);
 var Users = function Users(_ref) {
   var users = _ref.users,
     create_url = _ref.create_url;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_helmet__WEBPACK_IMPORTED_MODULE_3__.Helmet, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("title", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_helmet__WEBPACK_IMPORTED_MODULE_3__.Helmet, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("title", {
         children: "Users"
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.InertiaLink, {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.InertiaLink, {
       href: route("users.create"),
       children: "Create User"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
       className: "mt-3 font-semibold text-2xl",
       children: "Test"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "overflow-hidden rounded-lg border border-gray-200 shadow-md m-5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("table", {
         className: "w-full border-collapse bg-white text-left text-sm text-gray-500",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("thead", {
           className: "bg-gray-50",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
               scope: "col",
               className: "px-6 py-4 font-medium text-gray-900",
               children: "No"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
               scope: "col",
               className: "px-6 py-4 font-medium text-gray-900",
               children: "Nama"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
               scope: "col",
               className: "px-6 py-4 font-medium text-gray-900",
               children: "Email"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
               scope: "col",
               className: "px-6 py-4 font-medium text-gray-900",
               children: "Action"
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tbody", {
           className: "divide-y divide-gray-100 border-t border-gray-100",
           children: users.map(function (user, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
               className: "hover:bg-gray-50",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("th", {
                 className: "px-6 py-4 font-normal text-gray-900",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                   className: "text-sm",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                     className: "font-medium text-gray-700",
                     children: index + 1
                   })
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("td", {
                 className: "flex gap-3 items-center px-6 py-4",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                  className: "relative h-10 w-10",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(simple_react_lightbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(simple_react_lightbox__WEBPACK_IMPORTED_MODULE_4__.SRLWrapper, {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+                        className: "h-10 w-full rounded-full object-cover object-center border border-gray-200",
+                        src: user.image
+                      })
+                    })
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                   className: "text-sm",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                     className: "font-medium text-gray-700",
                     children: user.name
                   })
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                 className: "px-6 py-4",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                   className: "text-gray-400",
                   children: user.email
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
                 className: "px-6 py-4",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
                   className: "flex justify-start gap-4",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.InertiaLink
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.InertiaLink
                   // onClick={handleDelete.bind(
                   //     this,
                   //     user.id
                   // )}
                   , {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
                       xmlns: "http://www.w3.org/2000/svg",
                       fill: "none",
                       viewBox: "0 0 24 24",
@@ -2591,16 +2635,15 @@ var Users = function Users(_ref) {
                       stroke: "currentColor",
                       className: "h-6 w-6",
                       "x-tooltip": "tooltip",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
                         strokeLinecap: "round",
                         strokeLinejoin: "round",
                         d: "M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
                       })
                     })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.InertiaLink
-                  // href={route("users.edit", user.id)}
-                  , {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.InertiaLink, {
+                    href: route("users.edit", user.id),
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
                       xmlns: "http://www.w3.org/2000/svg",
                       fill: "none",
                       viewBox: "0 0 24 24",
@@ -2608,7 +2651,7 @@ var Users = function Users(_ref) {
                       stroke: "currentColor",
                       className: "h-6 w-6",
                       "x-tooltip": "tooltip",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
                         strokeLinecap: "round",
                         strokeLinejoin: "round",
                         d: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
@@ -2625,7 +2668,7 @@ var Users = function Users(_ref) {
   });
 };
 Users.layout = function (page) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_components_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {
     children: page
   });
 };

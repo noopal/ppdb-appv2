@@ -24,8 +24,3 @@ Route::get('/profile', function () {
 })->name('profile');
 
 Route::resource('/users', UserController::class);
-
-Route::get('/users/create', function () {
-    return Inertia::render('CreateUsers');
-})->name('users.create');
-Route::post('/users/post', [UserController::class, 'store'])->name('users.post');

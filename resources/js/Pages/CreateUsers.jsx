@@ -6,12 +6,16 @@ import Swal from "sweetalert2";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import Avatar from "../../../public/images/avatar.png";
 
-const CreateUsers = ({ errors }) => {
+const CreateUsers = ({ errors, editUsers }) => {
     console.log(errors);
+    console.log(editUsers);
     const imageRef = React.useRef();
+    const [image, setImage] = React.useState(
+        base_url + "/" + editUsers?.image || ""
+    );
     const [values, setValues] = React.useState({
-        name: "",
-        email: "",
+        name: editUsers?.name || "",
+        email: editUsers?.email || "",
         password: "",
         password_confirmation: "",
     });
@@ -70,12 +74,33 @@ const CreateUsers = ({ errors }) => {
             formData.append(key, values[key]);
         }
         formData.append("image", imageRef.current.files[0]);
-        Inertia.post(route("users.post"), formData, {
+        Inertia.post(route("users.store"), formData, {
             onSuccess: () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
                     title: "Data user berhasil ditambahkan",
+                    showConfirmButton: true,
+                });
+            },
+        });
+    };
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        console.log(values);
+        const formData = new FormData();
+        formData.append("id", editUsers.id);
+        for (let key in values) {
+            formData.append(key, values[key]);
+        }
+        formData.append("image", imageRef.current.files[0]);
+        formData.append("_method", "put");
+        Inertia.post(route("users.update", editUsers.id), formData, {
+            onSuccess: () => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Data user berhasil diupdate",
                     showConfirmButton: true,
                 });
             },
@@ -95,7 +120,14 @@ const CreateUsers = ({ errors }) => {
             return false;
         }
     };
-    const [image, setImage] = React.useState("");
+    const buttonDisabledUpdate = () => {
+        if (values.name === "" || values.email === "") {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     const handleUpload = (e) => {
         e.preventDefault();
         let reader = new FileReader();
@@ -117,7 +149,7 @@ const CreateUsers = ({ errors }) => {
             <Helmet>
                 <title>Create Users</title>
             </Helmet>
-            <h1>Create Users</h1>
+            <h1>{editUsers ? "Form Update Users" : "Form Registrasi User"}</h1>
             <div>
                 <div>
                     <SimpleReactLightbox>
@@ -132,7 +164,7 @@ const CreateUsers = ({ errors }) => {
                 </div>
                 <form
                     action="post"
-                    onSubmit={handleSubmit}
+                    onSubmit={editUsers ? handleUpdate : handleSubmit}
                     encType="multipart/form-data"
                 >
                     <div>
@@ -180,56 +212,63 @@ const CreateUsers = ({ errors }) => {
                             {error.email}
                         </div>
                     </div>
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className={styles.classNameLabel}
-                        >
-                            Password
-                        </label>
-                        <input
-                            type="text"
-                            id="password"
-                            className={styles.classNameInput}
-                            value={values.password}
-                            onChange={handleChange}
-                            placeholder="Password ...."
-                        />
-                        {errors.password && (
-                            <div className={styles.classNameErros}>
-                                {errors.password}
+                    {editUsers ? (
+                        ""
+                    ) : (
+                        <div>
+                            <div>
+                                <label
+                                    htmlFor="password"
+                                    className={styles.classNameLabel}
+                                >
+                                    Password
+                                </label>
+                                <input
+                                    type="text"
+                                    id="password"
+                                    className={styles.classNameInput}
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    placeholder="Password ...."
+                                />
+                                {errors.password && (
+                                    <div className={styles.classNameErros}>
+                                        {errors.password}
+                                    </div>
+                                )}
+                                <div className={styles.classNameErros}>
+                                    {error.password}
+                                </div>
                             </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.password}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="password_confirmation"
-                            className={styles.classNameLabel}
-                        >
-                            Nama
-                        </label>
-                        <input
-                            type="text"
-                            id="password_confirmation"
-                            className={styles.classNameInput}
-                            value={values.password_confirmation}
-                            onChange={handleChange}
-                            placeholder="Password confirmation ...."
-                        />
-                        {errors.password_confirmation && (
-                            <div className={styles.classNameErros}>
-                                {errors.password_confirmation}
+                            <div>
+                                <label
+                                    htmlFor="password_confirmation"
+                                    className={styles.classNameLabel}
+                                >
+                                    Confirmation Password
+                                </label>
+                                <input
+                                    type="text"
+                                    id="password_confirmation"
+                                    className={styles.classNameInput}
+                                    value={values.password_confirmation}
+                                    onChange={handleChange}
+                                    placeholder="Password confirmation ...."
+                                />
+                                {errors.password_confirmation && (
+                                    <div className={styles.classNameErros}>
+                                        {errors.password_confirmation}
+                                    </div>
+                                )}
+                                <div className={styles.classNameErros}>
+                                    {values.password !==
+                                    values.password_confirmation
+                                        ? "Password dan Password Confirmation tidak sama"
+                                        : ""}
+                                </div>
                             </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {values.password !== values.password_confirmation
-                                ? "Password dan Password Confirmation tidak sama"
-                                : ""}
                         </div>
-                    </div>
+                    )}
                     <div>
                         <label
                             htmlFor="image"
@@ -257,11 +296,21 @@ const CreateUsers = ({ errors }) => {
                         <button
                             type="submit"
                             className={`w-full ${
-                                buttonDisabled() ? "bg-blue-200" : "bg-blue-500"
+                                (
+                                    editUsers
+                                        ? buttonDisabledUpdate()
+                                        : buttonDisabled()
+                                )
+                                    ? "bg-blue-200"
+                                    : "bg-blue-500"
                             }`}
-                            disabled={buttonDisabled()}
+                            disabled={
+                                editUsers
+                                    ? buttonDisabledUpdate()
+                                    : buttonDisabled()
+                            }
                         >
-                            Register
+                            {editUsers ? "Update" : "Register"}
                         </button>
                     </div>
                 </form>
