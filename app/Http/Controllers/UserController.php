@@ -127,6 +127,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = User::find($id);
+        $delete->delete();
+        return Redirect::route('users.index');
     }
 }

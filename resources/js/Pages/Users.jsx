@@ -3,7 +3,32 @@ import React from "react";
 import Layout from "../components/Layout";
 import { Helmet } from "react-helmet";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
+import Swal from "sweetalert2";
+import { Inertia } from "@inertiajs/inertia";
 
+const handleDelete = (id) => {
+    Swal.fire({
+        title: "Apakah anda yakin?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Delete",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Inertia.delete(route("users.destroy", id), {
+                onSuccess: () => {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Data berhasil dihapus",
+                        showConfirmButton: true,
+                    });
+                },
+            });
+        }
+    });
+};
 const Users = ({ users, create_url }) => {
     return (
         <React.Fragment>
@@ -78,10 +103,10 @@ const Users = ({ users, create_url }) => {
                                 <td className="px-6 py-4">
                                     <div className="flex justify-start gap-4">
                                         <InertiaLink
-                                        // onClick={handleDelete.bind(
-                                        //     this,
-                                        //     user.id
-                                        // )}
+                                            onClick={handleDelete.bind(
+                                                this,
+                                                user.id
+                                            )}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

@@ -147,7 +147,7 @@ const CreateUsers = ({ errors, editUsers }) => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Create Users</title>
+                <title>{editUsers ? "Update Users" : "Create Users"}</title>
             </Helmet>
             <h1>{editUsers ? "Form Update Users" : "Form Registrasi User"}</h1>
             <div>
