@@ -23,7 +23,7 @@ Route::get('/register', function () {
     return Inertia::render('Register');
 })->name('register');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/users', UserController::class);
     Route::get('/', function () {
         return Inertia::render('Home');
