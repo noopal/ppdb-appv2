@@ -15,12 +15,20 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-})->name('home');
+Route::get('/login', function () {
+    return Inertia::render('Login');
+})->name('login');
 
-Route::get('/profile', function () {
-    return Inertia::render('Profile');
-})->name('profile');
+Route::get('/register', function () {
+    return Inertia::render('Register');
+})->name('register');
 
-Route::resource('/users', UserController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/users', UserController::class);
+    Route::get('/', function () {
+        return Inertia::render('Home');
+    })->name('home');
+    Route::get('/profile', function () {
+        return Inertia::render('Profile');
+    })->name('profile');
+});

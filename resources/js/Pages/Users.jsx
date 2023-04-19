@@ -6,30 +6,32 @@ import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import Swal from "sweetalert2";
 import { Inertia } from "@inertiajs/inertia";
 
-const handleDelete = (id) => {
-    Swal.fire({
-        title: "Apakah anda yakin?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Delete",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Inertia.delete(route("users.destroy", id), {
-                onSuccess: () => {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Data berhasil dihapus",
-                        showConfirmButton: true,
-                    });
-                },
-            });
-        }
-    });
-};
-const Users = ({ users, create_url }) => {
+const Users = ({ users, user }) => {
+    console.log("user login", user);
+    console.log(users);
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Apakah anda yakin?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Delete",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Inertia.delete(route("users.destroy", id), {
+                    onSuccess: () => {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Data berhasil dihapus",
+                            showConfirmButton: true,
+                        });
+                    },
+                });
+            }
+        });
+    };
     return (
         <React.Fragment>
             <Helmet>
@@ -154,6 +156,6 @@ const Users = ({ users, create_url }) => {
     );
 };
 
-Users.layout = (page) => <Layout children={page} />;
+Users.layout = (page) => <Layout user={page.props.user} children={page} />;
 
 export default Users;

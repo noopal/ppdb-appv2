@@ -12,6 +12,6 @@ const Profile = () => {
         </React.Fragment>
     );
 };
-Profile.layout = (page) => <Layout children={page} />;
+Profile.layout = (page) => <Layout user={page.props.user} children={page} />;
 
 export default Profile;

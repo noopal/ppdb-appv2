@@ -13,6 +13,6 @@ const Home = () => {
     );
 };
 
-Home.layout = (page) => <Layout children={page} />;
+Home.layout = (page) => <Layout user={page.props.user} children={page} />;
 
 export default Home;
