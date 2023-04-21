@@ -44,7 +44,7 @@ const ForgotPassword = ({ errors, message }) => {
         for (let key in values) {
             formData.append(key, values[key]);
         }
-        Inertia.post(route(), formData, {
+        Inertia.post(route("password.email"), formData, {
             onSuccess: () => {
                 Swal.fire({
                     position: "center",
