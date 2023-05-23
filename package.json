@@ -29,13 +29,21 @@
         "tailwindcss": "^2.0.3"
     },
     "dependencies": {
+        "@babel/core": "^7.21.4",
+        "@babel/preset-env": "^7.21.4",
+        "@headlessui/react": "^1.7.14",
+        "@heroicons/react": "^2.0.17",
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-react": "^0.8.1",
         "@inertiajs/react": "^1.0.2",
         "@tailwindcss/postcss7-compat": "^2.2.17",
         "loaderjs": "^1.0.0",
+        "react-headless-tabs": "^6.0.4",
         "react-helmet": "^6.1.0",
+        "react-pro-sidebar": "^1.0.0",
+        "react-router-dom": "^6.10.0",
         "simple-react-lightbox": "^3.6.9-0",
-        "sweetalert2": "^11.7.3"
+        "sweetalert2": "^11.4.8",
+        "ziggy-js": "^1.6.0"
     }
 }

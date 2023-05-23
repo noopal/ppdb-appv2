@@ -1,34 +1,32 @@
 import React from "react";
+import Layout from "../components/Layout";
 import { InertiaLink } from "@inertiajs/inertia-react";
+import { Helmet } from "react-helmet";
 
 const parsePage = (path) => path.split("/");
-const Sidebar = () => {
-    // console.log(pageActive);
+const Kelembagaan = () => {
+    console.log(pageActive);
     let pageActive = parsePage(window.location.pathname);
 
-    const Menus = [
-        { menu: "Home", href: "/dashboard" },
-        { menu: "Users", href: "/users" },
-        { menu: "Profile", href: "/profile" },
-        { menu: "Profil Sekolah", href: "/sekolah" },
-        { menu: "Jurusan", href: "/jurusan" },
-        { menu: "Pendaftaran", href: "/daftar-pendaftar" },
+    const Tabs = [
+        { tab: "Profile Lembaga", href: "/profile-lembaga" },
+        { tab: "Data Pengguna", href: "/data-pengguna" },
+        { tab: "Data Jurusan", href: "/kelembagaan/data-jurusan" },
     ];
 
     return (
         <React.Fragment>
-            <div className="h-screen text-white">
-                <div className="flex justify-center items-center p-2">
-                    <p className="text-2xl font-semibold ">Transfer</p>
-                </div>
-                {Menus.map((menu, index, children) => (
+            <Helmet>
+                <title>Data Jurusan</title>
+            </Helmet>
+            <div className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+                {Tabs.map((tab, index) => (
                     <Menu
-                        pageActive={`/${pageActive[1]}`}
                         key={index}
-                        href={menu.href}
-                        children={children}
+                        href={tab.href}
+                        pageActive={`/${pageActive[1]}`}
                     >
-                        {menu.menu}
+                        {tab.tab}
                     </Menu>
                 ))}
             </div>
@@ -36,19 +34,23 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+Kelembagaan.layout = (page) => (
+    <Layout user={page.props.user} children={page} />
+);
+
+export default Kelembagaan;
 
 const Menu = React.memo(({ children, href, pageActive }) => {
     console.log(pageActive);
     return (
         <div>
-            <InertiaLink className="ml-4   " href={href}>
+            <InertiaLink className="mr-2" href={href}>
                 <button
                     className={` ${
-                        href === pageActive ? "bg-purple-300" : ""
-                    } py-2  font-semibold text-sm flex items-center px-8 w-full`}
+                        href === pageActive ? "active" : ""
+                    }inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg  dark:text-blue-500 dark:border-blue-500`}
                 >
-                    <svg
+                    {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -61,7 +63,7 @@ const Menu = React.memo(({ children, href, pageActive }) => {
                             strokeWidth={2}
                             d="M4 6h16M4 12h16M4 18h7"
                         />
-                    </svg>
+                    </svg> */}
                     <p>{children}</p>
                 </button>
             </InertiaLink>

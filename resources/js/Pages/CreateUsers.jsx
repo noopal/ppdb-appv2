@@ -13,17 +13,20 @@ const CreateUsers = ({ errors, editUsers }) => {
     const [image, setImage] = React.useState(
         base_url + "/" + editUsers?.image || ""
     );
+
     const [values, setValues] = React.useState({
         name: editUsers?.name || "",
         email: editUsers?.email || "",
         password: "",
         password_confirmation: "",
+        tanggalLahir: editUsers?.tanggalLahir || "",
     });
     const [error] = React.useState({
         name: "",
         email: "",
         password: "",
         password_confirmation: "",
+        tanggalLahir: "",
     });
     const regExp = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
     const handleChange = (e) => {
@@ -62,6 +65,10 @@ const CreateUsers = ({ errors, editUsers }) => {
                         ? "Password Confirmation minimal 8 karakter"
                         : "";
                 break;
+            case "tanggalLahir":
+                error.tanggalLahir =
+                    value === "" ? "Tanggal lahir tidak boleh kosong" : "";
+                break;
             default:
                 break;
         }
@@ -79,7 +86,8 @@ const CreateUsers = ({ errors, editUsers }) => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Data user berhasil ditambahkan",
+                    title: "Berhasil",
+                    text: "Data user berhasil ditambahkan",
                     showConfirmButton: true,
                 });
             },
@@ -100,7 +108,8 @@ const CreateUsers = ({ errors, editUsers }) => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Data user berhasil diupdate",
+                    title: "Berhasil",
+                    text: "Data user berhasil diupdate",
                     showConfirmButton: true,
                 });
             },
@@ -110,6 +119,7 @@ const CreateUsers = ({ errors, editUsers }) => {
         if (
             values.name === "" ||
             values.email === "" ||
+            values.tanggalLahir === "" ||
             values.password === "" ||
             values.password_confirmation === ""
         ) {
@@ -121,7 +131,11 @@ const CreateUsers = ({ errors, editUsers }) => {
         }
     };
     const buttonDisabledUpdate = () => {
-        if (values.name === "" || values.email === "") {
+        if (
+            values.name === "" ||
+            values.email === "" ||
+            values.tanggalLahir === ""
+        ) {
             return true;
         } else {
             return false;
@@ -210,6 +224,30 @@ const CreateUsers = ({ errors, editUsers }) => {
                         )}
                         <div className={styles.classNameErros}>
                             {error.email}
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            htmlFor="tanggalLahir"
+                            className={styles.classNameLabel}
+                        >
+                            Tanggal Lahir
+                        </label>
+                        <input
+                            type="date"
+                            id="tanggalLahir"
+                            className={styles.classNameInput}
+                            value={values.tanggalLahir}
+                            onChange={handleChange}
+                            placeholder="Tanggal Lahir ...."
+                        />
+                        {errors.tanggalLahir && (
+                            <div className={styles.classNameErros}>
+                                {errors.tanggalLahir}
+                            </div>
+                        )}
+                        <div className={styles.classNameErros}>
+                            {error.tanggalLahir}
                         </div>
                     </div>
                     {editUsers ? (

@@ -6,9 +6,7 @@ import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import Swal from "sweetalert2";
 import { Inertia } from "@inertiajs/inertia";
 
-const Users = ({ users, user }) => {
-    console.log("user login", user);
-    console.log(users);
+const Jurusan = ({ jurusans }) => {
     const handleDelete = (id) => {
         Swal.fire({
             title: "Apakah anda yakin?",
@@ -19,13 +17,13 @@ const Users = ({ users, user }) => {
             confirmButtonText: "Delete",
         }).then((result) => {
             if (result.isConfirmed) {
-                Inertia.delete(route("users.destroy", id), {
+                Inertia.delete(route("jurusan.destroy", id), {
                     onSuccess: () => {
                         Swal.fire({
                             position: "center",
                             icon: "success",
                             title: "Berhasil",
-                            text: "Data berhasil dihapus",
+                            text: "Jurusan berhasil dihapus",
                             showConfirmButton: true,
                         });
                     },
@@ -36,11 +34,12 @@ const Users = ({ users, user }) => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Users</title>
+                <title>Jurusan</title>
             </Helmet>
-
-            <InertiaLink href={route("users.create")}>Create User</InertiaLink>
-            <h1 className="mt-3 font-semibold text-2xl">Test</h1>
+            {/* Tabel Jurusan */}
+            <InertiaLink href={route("jurusan.create")}>
+                Tambah Jurusan
+            </InertiaLink>
             <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                 <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
                     <thead className="bg-gray-50">
@@ -55,13 +54,13 @@ const Users = ({ users, user }) => {
                                 scope="col"
                                 className="px-6 py-4 font-medium text-gray-900"
                             >
-                                Nama
+                                Thumbnail
                             </th>
                             <th
                                 scope="col"
                                 className="px-6 py-4 font-medium text-gray-900"
                             >
-                                Email
+                                Nama Jurusan
                             </th>
                             <th
                                 scope="col"
@@ -72,8 +71,8 @@ const Users = ({ users, user }) => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-                        {users.map((user, index) => (
-                            <tr className="hover:bg-gray-50" key={user.id}>
+                        {jurusans.map((jurusan, index) => (
+                            <tr className="hover:bg-gray-50">
                                 <th className="px-6 py-4 font-normal text-gray-900">
                                     <div className="text-sm">
                                         <div className="font-medium text-gray-700">
@@ -87,20 +86,15 @@ const Users = ({ users, user }) => {
                                             <SRLWrapper>
                                                 <img
                                                     className="h-10 w-full rounded-full object-cover object-center border border-gray-200"
-                                                    src={user.image}
+                                                    src={jurusan.thumbnail}
                                                 />
                                             </SRLWrapper>
                                         </SimpleReactLightbox>
                                     </div>
-                                    <div className="text-sm">
-                                        <div className="font-medium text-gray-700">
-                                            {user.name}
-                                        </div>
-                                    </div>
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="text-gray-400">
-                                        {user.email}
+                                        {jurusan.nama_jurusan}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
@@ -108,7 +102,7 @@ const Users = ({ users, user }) => {
                                         <InertiaLink
                                             onClick={handleDelete.bind(
                                                 this,
-                                                user.id
+                                                jurusan.id
                                             )}
                                         >
                                             <svg
@@ -128,7 +122,10 @@ const Users = ({ users, user }) => {
                                             </svg>
                                         </InertiaLink>
                                         <InertiaLink
-                                            href={route("users.edit", user.id)}
+                                            href={route(
+                                                "jurusan.edit",
+                                                jurusan.id
+                                            )}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -157,6 +154,6 @@ const Users = ({ users, user }) => {
     );
 };
 
-Users.layout = (page) => <Layout user={page.props.user} children={page} />;
+Jurusan.layout = (page) => <Layout user={page.props.user} children={page} />;
 
-export default Users;
+export default Jurusan;

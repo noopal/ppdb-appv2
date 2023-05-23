@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Jurusan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
-class UserController extends Controller
+class JurusanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +16,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return Inertia::render('Users', [
-            'users' => $users->map(function ($user) {
+        $jurusans = Jurusan::all();
+        return Inertia::render('Jurusan', [
+            'jurusans' => $jurusans->map(function ($jurusan) {
                 return [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'image' => $user->image,
-                    'tanggalLahir' => $user->tanggalLahir,
+                    'id' => $jurusan->id,
+                    'nama_jurusan' => $jurusan->nama_jurusan,
+                    'thumbnail' => $jurusan->thumbnail,
                 ];
             }),
         ]);
@@ -39,7 +35,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('CreateUsers');
+        return Inertia::render('CreateJurusan');
     }
 
     /**
@@ -52,23 +48,18 @@ class UserController extends Controller
     {
         // dd($request->all());
         $post = $this->validate($request, [
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'confirmed'],
-            'password_confirmation' => ['required'],
-            'image' => ['required', 'mimes:png,jpg,jpeg'],
-            'tanggalLahir' => ['required']
+            'nama_jurusan' => ['required'],
+            'thumbnail' => ['required', 'mimes:png,jpg,jpeg'],
         ]);
 
-        $extFile = $request->image->getClientOriginalExtension();
+        $extFile = $request->thumbnail->getClientOriginalExtension();
         $namaFile = 'spa' . time() . "." . $extFile;
-        $image = $request->image->move('images', $namaFile);
+        $image = $request->thumbnail->move('thumbnails', $namaFile);
 
-        $post['image'] = $image;
-        $post['password'] = Hash::make($request->password);
+        $post['thumbnail'] = $image;
 
-        User::create($post);
-        return Redirect::route('users.index');
+        Jurusan::create($post);
+        return Redirect::route('jurusan.index');
     }
 
     /**
@@ -90,9 +81,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $Users = User::find($id);
-        return Inertia::render('CreateUsers', [
-            'editUsers' => $Users
+        $jurusans = Jurusan::find($id);
+        return Inertia::render('CreateJurusan', [
+            'editJurusans' => $jurusans
         ]);
     }
 
@@ -107,20 +98,18 @@ class UserController extends Controller
     {
         // dd($request->all());
         $put = $this->validate($request, [
-            'name' => ['required'],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
-            'image' => ['image', 'mimes:png,jpg,jpeg'],
-            'tanggalLahir' => ['required']
+            'nama_jurusan' => ['required'],
+            'thumbnail' => ['thumbnail', 'mimes:png,jpg,jpeg'],
         ]);
 
-        $extFile = $request->image->getClientOriginalExtension();
+        $extFile = $request->thumbnail->getClientOriginalExtension();
         $namaFile = 'spa' . time() . "." . $extFile;
-        $image = $request->image->move('images', $namaFile);
+        $image = $request->thumbnail->move('thumbnails', $namaFile);
 
-        $put['image'] = $image;
+        $put['thumbnail'] = $image;
 
-        User::where('id', $id)->update($put);
-        return Redirect::route('users.index');
+        Jurusan::where('id', $id)->update($put);
+        return Redirect::route('jurusan.index');
     }
 
     /**
@@ -131,8 +120,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $delete = User::find($id);
+        $delete = Jurusan::find($id);
         $delete->delete();
-        return Redirect::route('users.index');
+        return Redirect::route('jurusan.index');
     }
 }

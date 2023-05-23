@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\DaftarPendaftaranController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,11 +29,27 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // User Controller
     Route::resource('/users', UserController::class);
-    Route::get('/', function () {
-        return Inertia::render('Home');
-    })->name('home');
     Route::get('/profile', function () {
         return Inertia::render('Profile');
     })->name('profile');
+    Route::get('/test', function () {
+        return Inertia::render('Test');
+    })->name('test');
+
+    /* Sekolah Controller */
+    Route::resource('/sekolah', SekolahController::class);
+
+    /* Home Controller */
+    Route::resource('/dashboard', HomeController::class);
+
+    /* Jurusan Controller */
+    Route::resource('/jurusan', JurusanController::class);
+
+    /* Daftar Pendaftaran Controller */
+    Route::resource('/daftar-pendaftar', DaftarPendaftaranController::class);
 });
+
+/* Pendaftaran Siswa Controller */
+Route::resource('/pendaftaran', PendaftaranController::class);
