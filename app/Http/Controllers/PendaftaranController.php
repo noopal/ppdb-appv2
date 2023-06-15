@@ -70,17 +70,21 @@ class PendaftaranController extends Controller
             'jarak' => ['required'],
             'jurusan' => ['required'],
             'image' => ['required', 'mimes:png,jpg,jpeg'],
-            'raport' => ['required', 'mimes:png,jpg,jpeg'],
-            'suratPernyataan' => ['required', 'mimes:png,jpg,jpeg'],
+            'raport' => ['required', 'mimes:pdf'],
+            'suratPernyataan' => ['required', 'mimes:pdf'],
         ]);
 
         $extFile = $request->image->getClientOriginalExtension();
-        $extFile = $request->raport->getClientOriginalExtension();
-        $extFile = $request->suratPernyataan->getClientOriginalExtension();
+        $extFileRaport = $request->raport->getClientOriginalExtension();
+        $extFileSuratPernyataan = $request->suratPernyataan->getClientOriginalExtension();
+
         $namaFile = 'spa' . time() . "." . $extFile;
+        $namaFileRaport = 'raport' . time() . "." . $extFileRaport;
+        $namaFileSuratPernyataan = 'suratPernyataan' . time() . "." . $extFileSuratPernyataan;
+
         $image = $request->image->move('thumbnails', $namaFile);
-        $raport = $request->raport->move('raport', $namaFile);
-        $suratPernyataan = $request->suratPernyataan->move('raport', $namaFile);
+        $raport = $request->raport->move('raport', $namaFileRaport);
+        $suratPernyataan = $request->suratPernyataan->move('suratPernyataan', $namaFileSuratPernyataan);
 
         $post['image'] = $image;
         $post['raport'] = $raport;

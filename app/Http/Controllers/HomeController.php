@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jurusan;
+use App\Models\Pendaftaran;
 use App\Models\Sekolah;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,9 +21,15 @@ class HomeController extends Controller
         // dd(User::all());
         $Sekolahs = Sekolah::first();
         $Users = User::all();
+        $JurusanCount = Jurusan::count();
+        $PendaftarCount = Pendaftaran::count();
+        $pendaftaran = Pendaftaran::all();
         return Inertia::render('Home', [
             'Sekolahs' => $Sekolahs,
-            'Users' => $Users
+            'Users' => $Users,
+            'pendaftaran' => $pendaftaran,
+            'JurusanCount' => $JurusanCount,
+            'PendaftarCount' => $PendaftarCount
         ]);
     }
 

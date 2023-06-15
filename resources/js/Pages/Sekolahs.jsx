@@ -191,14 +191,14 @@ const ProfilLembaga = ({ errors, Sekolahs, editSekolah }) => {
                     <div>
                         <button
                             type="submit"
-                            className={`w-full ${
+                            className={`w-full bg-yellow-400 rounded-lg py-2 text-white ${
                                 (
                                     editSekolah
                                         ? buttonDisabledUpdate()
                                         : buttonDisabled()
                                 )
-                                    ? "bg-blue-200"
-                                    : "bg-blue-500"
+                                    ? "bg-yellow-200"
+                                    : "bg-yellow-500"
                             }`}
                             disabled={
                                 editSekolah
@@ -206,7 +206,7 @@ const ProfilLembaga = ({ errors, Sekolahs, editSekolah }) => {
                                     : buttonDisabled()
                             }
                         >
-                            {editSekolah ? "Update" : "Register"}
+                            {editSekolah ? "Update" : "Simpan"}
                         </button>
                     </div>
                 </form>

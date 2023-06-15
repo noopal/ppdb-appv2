@@ -5,9 +5,18 @@ import { Inertia } from "@inertiajs/inertia";
 import Swal from "sweetalert2";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import Avatar from "../../../public/images/avatar.png";
+import NavbarWebsite from "../components/NavbarWebsite";
+import NavbarWebsiteCopy from "../components/NavbarWebsite copy";
 
-const PendaftaranSiswa = ({ errors, editPendaftaran, jurusans }) => {
+const PendaftaranSiswa = ({
+    errors,
+    editPendaftaran,
+    jurusans,
+    children,
+    user,
+}) => {
     console.log(errors);
+
     // console.log(editPendaftaran);
     const imageRef = React.useRef();
     const raportRef = React.useRef();
@@ -220,362 +229,354 @@ const PendaftaranSiswa = ({ errors, editPendaftaran, jurusans }) => {
                         : "Create Pendaftaran"}
                 </title>
             </Helmet>
-            <h1>
-                {editPendaftaran
-                    ? "Form Update Pendaftaran"
-                    : "Form Pendaftaran Peserta Didik Baru"}
-            </h1>
-            <div className="px-32">
-                <h1>Biodata Calon Siswa</h1>
-                <form
-                    action="post"
-                    onSubmit={editPendaftaran ? handleUpdate : handleSubmit}
-                    encType="multipart/form-data"
-                >
-                    <div>
-                        <label htmlFor="name" className={styles.classNameLabel}>
-                            Nama
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            className={styles.classNameInput}
-                            value={values.name}
-                            onChange={handleChange}
-                            placeholder="Nama ...."
-                        />
-                        {errors.name && (
-                            <div className={styles.classNameErros}>
-                                {errors.name}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.name}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="tempat_lahir"
-                            className={styles.classNameLabel}
-                        >
-                            Tempat Lahir
-                        </label>
-                        <input
-                            type="text"
-                            id="tempat_lahir"
-                            className={styles.classNameInput}
-                            value={values.tempat_lahir}
-                            onChange={handleChange}
-                            placeholder="Nama ...."
-                        />
-                        {errors.tempat_lahir && (
-                            <div className={styles.classNameErros}>
-                                {errors.tempat_lahir}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.tempat_lahir}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="tanggal_lahir"
-                            className={styles.classNameLabel}
-                        >
-                            Tanggal Lahir
-                        </label>
-                        <input
-                            type="date"
-                            id="tanggal_lahir"
-                            className={styles.classNameInput}
-                            value={values.tanggal_lahir}
-                            onChange={handleChange}
-                            placeholder="Tanggal Lahir ...."
-                        />
-                        {errors.tanggal_lahir && (
-                            <div className={styles.classNameErros}>
-                                {errors.tanggal_lahir}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.tanggal_lahir}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="agama"
-                            className={styles.classNameLabel}
-                        >
-                            Agama
-                        </label>
-                        <input
-                            type="text"
-                            id="agama"
-                            className={styles.classNameInput}
-                            value={values.agama}
-                            onChange={handleChange}
-                            placeholder="Email ...."
-                        />
-                        {errors.agama && (
-                            <div className={styles.classNameErros}>
-                                {errors.agama}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.agama}
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="asal" className={styles.classNameLabel}>
-                            Asal
-                        </label>
-                        <input
-                            type="text"
-                            id="asal"
-                            className={styles.classNameInput}
-                            value={values.asal}
-                            onChange={handleChange}
-                            placeholder="Email ...."
-                        />
-                        {errors.asal && (
-                            <div className={styles.classNameErros}>
-                                {errors.asal}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.asal}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="alamat"
-                            className={styles.classNameLabel}
-                        >
-                            Alamat
-                        </label>
-                        <input
-                            type="text"
-                            id="alamat"
-                            className={styles.classNameInput}
-                            value={values.alamat}
-                            onChange={handleChange}
-                            placeholder="Email ...."
-                        />
-                        {errors.alamat && (
-                            <div className={styles.classNameErros}>
-                                {errors.alamat}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.alamat}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="nomor_handphone"
-                            className={styles.classNameLabel}
-                        >
-                            Nomor Handphone
-                        </label>
-                        <input
-                            type="text"
-                            id="nomor_handphone"
-                            className={styles.classNameInput}
-                            value={values.nomor_handphone}
-                            onChange={handleChange}
-                            placeholder="Email ...."
-                        />
-                        {errors.nomor_handphone && (
-                            <div className={styles.classNameErros}>
-                                {errors.nomor_handphone}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.nomor_handphone}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="jarak"
-                            className={styles.classNameLabel}
-                        >
-                            Jarak
-                        </label>
-                        <input
-                            type="text"
-                            id="jarak"
-                            className={styles.classNameInput}
-                            value={values.jarak}
-                            onChange={handleChange}
-                            placeholder="Email ...."
-                        />
-                        {errors.jarak && (
-                            <div className={styles.classNameErros}>
-                                {errors.jarak}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.jarak}
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="jurusan"
-                            className={styles.classNameLabel}
-                        >
-                            jurusan
-                        </label>
-                        <input
-                            type="text"
-                            id="jurusan"
-                            className={styles.classNameInput}
-                            value={values.jurusan}
-                            onChange={handleChange}
-                            placeholder="Email ...."
-                        />
-                        {errors.jurusan && (
-                            <div className={styles.classNameErros}>
-                                {errors.jurusan}
-                            </div>
-                        )}
-                        <div className={styles.classNameErros}>
-                            {error.jurusan}
-                        </div>
-                    </div>
-                    <div className="flex">
-                        <div className="">
-                            <SimpleReactLightbox>
-                                <SRLWrapper>
-                                    <img
-                                        className="w-32 h-32 mx-auto border border-stone-400 overflow-hidden rounded-lg"
-                                        src={raport === "" ? Avatar : raport}
-                                        alt="avatar.png"
-                                    />
-                                </SRLWrapper>
-                            </SimpleReactLightbox>
-                        </div>
+            <NavbarWebsiteCopy />
+            <div className="pt-28 pb-16">
+                <div className="px-32">
+                    {/* <h1>
+                    {editPendaftaran
+                        ? "Form Update Pendaftaran"
+                        : "Form Pendaftaran Peserta Didik Baru"}
+                </h1> */}
+                    <h1 className="text-4xl font-bold pb-6">
+                        Data Calon Peserta Didik Baru
+                    </h1>
+                    <form
+                        action="post"
+                        onSubmit={editPendaftaran ? handleUpdate : handleSubmit}
+                        encType="multipart/form-data"
+                    >
                         <div>
                             <label
-                                htmlFor="raport"
+                                htmlFor="name"
                                 className={styles.classNameLabel}
                             >
-                                Raport
+                                Nama
                             </label>
                             <input
-                                type="file"
-                                id="raport"
+                                type="text"
+                                id="name"
                                 className={styles.classNameInput}
-                                ref={raportRef}
-                                onChange={handleUploadRaport}
+                                value={values.name}
+                                onChange={handleChange}
+                                placeholder="Nama ...."
                             />
-                            {errors.raport && (
+                            {errors.name && (
                                 <div className={styles.classNameErros}>
-                                    {errors.raport}
+                                    {errors.name}
                                 </div>
                             )}
                             <div className={styles.classNameErros}>
-                                {error.raport}
+                                {error.name}
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex">
-                        <div className="">
-                            <SimpleReactLightbox>
-                                <SRLWrapper>
-                                    <img
-                                        className="w-32 h-32 mx-auto border border-stone-400 overflow-hidden rounded-lg"
-                                        src={
-                                            suratPernyataan === ""
-                                                ? Avatar
-                                                : suratPernyataan
-                                        }
-                                        alt="avatar.png"
-                                    />
-                                </SRLWrapper>
-                            </SimpleReactLightbox>
                         </div>
                         <div>
                             <label
-                                htmlFor="suratPernyataan"
+                                htmlFor="tempat_lahir"
                                 className={styles.classNameLabel}
                             >
-                                Surat Pernyataan
+                                Tempat Lahir
                             </label>
                             <input
-                                type="file"
-                                id="suratPernyataan"
+                                type="text"
+                                id="tempat_lahir"
                                 className={styles.classNameInput}
-                                ref={suratPernyataanRef}
-                                onChange={handleUploadSuratPernyataan}
+                                value={values.tempat_lahir}
+                                onChange={handleChange}
+                                placeholder="Nama ...."
                             />
-                            {errors.suratPernyataan && (
+                            {errors.tempat_lahir && (
                                 <div className={styles.classNameErros}>
-                                    {errors.suratPernyataan}
+                                    {errors.tempat_lahir}
                                 </div>
                             )}
                             <div className={styles.classNameErros}>
-                                {error.suratPernyataan}
+                                {error.tempat_lahir}
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex">
-                        <div className="">
-                            <SimpleReactLightbox>
-                                <SRLWrapper>
-                                    <img
-                                        className="w-32 h-32 mx-auto border border-stone-400 overflow-hidden rounded-lg"
-                                        src={image === "" ? Avatar : image}
-                                        alt="avatar.png"
-                                    />
-                                </SRLWrapper>
-                            </SimpleReactLightbox>
                         </div>
                         <div>
                             <label
-                                htmlFor="image"
+                                htmlFor="tanggal_lahir"
                                 className={styles.classNameLabel}
                             >
-                                Foto Profile
+                                Tanggal Lahir
                             </label>
                             <input
-                                type="file"
-                                id="image"
+                                type="date"
+                                id="tanggal_lahir"
                                 className={styles.classNameInput}
-                                ref={imageRef}
-                                onChange={handleUploadImage}
+                                value={values.tanggal_lahir}
+                                onChange={handleChange}
+                                placeholder="Tanggal Lahir ...."
                             />
-                            {errors.image && (
+                            {errors.tanggal_lahir && (
                                 <div className={styles.classNameErros}>
-                                    {errors.image}
+                                    {errors.tanggal_lahir}
                                 </div>
                             )}
                             <div className={styles.classNameErros}>
-                                {error.image}
+                                {error.tanggal_lahir}
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <button
-                            type="submit"
-                            className={`w-full ${
-                                (
+                        <div>
+                            <label
+                                htmlFor="agama"
+                                className={styles.classNameLabel}
+                            >
+                                Agama
+                            </label>
+                            <input
+                                type="text"
+                                id="agama"
+                                className={styles.classNameInput}
+                                value={values.agama}
+                                onChange={handleChange}
+                                placeholder="Email ...."
+                            />
+                            {errors.agama && (
+                                <div className={styles.classNameErros}>
+                                    {errors.agama}
+                                </div>
+                            )}
+                            <div className={styles.classNameErros}>
+                                {error.agama}
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="asal"
+                                className={styles.classNameLabel}
+                            >
+                                Asal
+                            </label>
+                            <input
+                                type="text"
+                                id="asal"
+                                className={styles.classNameInput}
+                                value={values.asal}
+                                onChange={handleChange}
+                                placeholder="Email ...."
+                            />
+                            {errors.asal && (
+                                <div className={styles.classNameErros}>
+                                    {errors.asal}
+                                </div>
+                            )}
+                            <div className={styles.classNameErros}>
+                                {error.asal}
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="alamat"
+                                className={styles.classNameLabel}
+                            >
+                                Alamat
+                            </label>
+                            <input
+                                type="text"
+                                id="alamat"
+                                className={styles.classNameInput}
+                                value={values.alamat}
+                                onChange={handleChange}
+                                placeholder="Email ...."
+                            />
+                            {errors.alamat && (
+                                <div className={styles.classNameErros}>
+                                    {errors.alamat}
+                                </div>
+                            )}
+                            <div className={styles.classNameErros}>
+                                {error.alamat}
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="nomor_handphone"
+                                className={styles.classNameLabel}
+                            >
+                                Nomor Handphone
+                            </label>
+                            <input
+                                type="text"
+                                id="nomor_handphone"
+                                className={styles.classNameInput}
+                                value={values.nomor_handphone}
+                                onChange={handleChange}
+                                placeholder="Email ...."
+                            />
+                            {errors.nomor_handphone && (
+                                <div className={styles.classNameErros}>
+                                    {errors.nomor_handphone}
+                                </div>
+                            )}
+                            <div className={styles.classNameErros}>
+                                {error.nomor_handphone}
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="jarak"
+                                className={styles.classNameLabel}
+                            >
+                                Jarak
+                            </label>
+                            <input
+                                type="text"
+                                id="jarak"
+                                className={styles.classNameInput}
+                                value={values.jarak}
+                                onChange={handleChange}
+                                placeholder="Email ...."
+                            />
+                            {errors.jarak && (
+                                <div className={styles.classNameErros}>
+                                    {errors.jarak}
+                                </div>
+                            )}
+                            <div className={styles.classNameErros}>
+                                {error.jarak}
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="jurusan"
+                                className={styles.classNameLabel}
+                            >
+                                jurusan
+                            </label>
+                            <input
+                                type="text"
+                                id="jurusan"
+                                className={styles.classNameInput}
+                                value={values.jurusan}
+                                onChange={handleChange}
+                                placeholder="Email ...."
+                            />
+                            {errors.jurusan && (
+                                <div className={styles.classNameErros}>
+                                    {errors.jurusan}
+                                </div>
+                            )}
+                            <div className={styles.classNameErros}>
+                                {error.jurusan}
+                            </div>
+                        </div>
+                        <div className="flex flex-row gap-8 my-8">
+                            <div className="flex">
+                                <div>
+                                    <label
+                                        htmlFor="raport"
+                                        className={styles.classNameLabel}
+                                    >
+                                        Raport
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="raport"
+                                        className={styles.classNameInput}
+                                        ref={raportRef}
+                                        onChange={handleUploadRaport}
+                                    />
+                                    {errors.raport && (
+                                        <div className={styles.classNameErros}>
+                                            {errors.raport}
+                                        </div>
+                                    )}
+                                    <div className={styles.classNameErros}>
+                                        {error.raport}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div>
+                                    <label
+                                        htmlFor="suratPernyataan"
+                                        className={styles.classNameLabel}
+                                    >
+                                        Surat Pernyataan
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="suratPernyataan"
+                                        className={styles.classNameInput}
+                                        ref={suratPernyataanRef}
+                                        onChange={handleUploadSuratPernyataan}
+                                    />
+                                    {errors.suratPernyataan && (
+                                        <div className={styles.classNameErros}>
+                                            {errors.suratPernyataan}
+                                        </div>
+                                    )}
+                                    <div className={styles.classNameErros}>
+                                        {error.suratPernyataan}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div className="px-3">
+                                    <SimpleReactLightbox>
+                                        <SRLWrapper>
+                                            <img
+                                                className="w-28 h-28 mx-auto border border-stone-400 overflow-hidden rounded-lg"
+                                                src={
+                                                    image === ""
+                                                        ? Avatar
+                                                        : image
+                                                }
+                                                alt="avatar.png"
+                                            />
+                                        </SRLWrapper>
+                                    </SimpleReactLightbox>
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="image"
+                                        className={styles.classNameLabel}
+                                    >
+                                        Foto Profile
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        className={styles.classNameInput}
+                                        ref={imageRef}
+                                        onChange={handleUploadImage}
+                                    />
+                                    {errors.image && (
+                                        <div className={styles.classNameErros}>
+                                            {errors.image}
+                                        </div>
+                                    )}
+                                    <div className={styles.classNameErros}>
+                                        {error.image}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button
+                                type="submit"
+                                className={`w-full text-white py-2 rounded-lg ${
+                                    (
+                                        editPendaftaran
+                                            ? buttonDisabledUpdate()
+                                            : buttonDisabled()
+                                    )
+                                        ? "bg-yellow-200"
+                                        : "bg-yellow-400"
+                                }`}
+                                disabled={
                                     editPendaftaran
                                         ? buttonDisabledUpdate()
                                         : buttonDisabled()
-                                )
-                                    ? "bg-blue-200"
-                                    : "bg-blue-500"
-                            }`}
-                            disabled={
-                                editPendaftaran
-                                    ? buttonDisabledUpdate()
-                                    : buttonDisabled()
-                            }
-                        >
-                            {editPendaftaran ? "Update" : "Register"}
-                        </button>
-                    </div>
-                </form>
+                                }
+                            >
+                                {editPendaftaran ? "Update" : "Register"}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </React.Fragment>
     );

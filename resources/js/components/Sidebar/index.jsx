@@ -8,8 +8,8 @@ const Sidebar = () => {
 
     const Menus = [
         { menu: "Home", href: "/dashboard" },
-        { menu: "Users", href: "/users" },
-        { menu: "Profile", href: "/profile" },
+        // { menu: "Users", href: "/users" },
+        // { menu: "Profile", href: "/profile" },
         { menu: "Profil Sekolah", href: "/sekolah" },
         { menu: "Jurusan", href: "/jurusan" },
         { menu: "Pendaftaran", href: "/daftar-pendaftar" },
@@ -19,7 +19,7 @@ const Sidebar = () => {
         <React.Fragment>
             <div className="h-screen text-white">
                 <div className="flex justify-center items-center p-2">
-                    <p className="text-2xl font-semibold ">Transfer</p>
+                    <p className="text-2xl font-semibold ">PPDB APP</p>
                 </div>
                 {Menus.map((menu, index, children) => (
                     <Menu
@@ -45,7 +45,7 @@ const Menu = React.memo(({ children, href, pageActive }) => {
             <InertiaLink className="ml-4   " href={href}>
                 <button
                     className={` ${
-                        href === pageActive ? "bg-purple-300" : ""
+                        href === pageActive ? "bg-yellow-400 rounded-lg" : ""
                     } py-2  font-semibold text-sm flex items-center px-8 w-full`}
                 >
                     <svg

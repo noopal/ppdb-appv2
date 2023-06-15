@@ -7,18 +7,18 @@ const Layout = ({ children, user }) => {
     return (
         <React.Fragment>
             <div className="flex">
-                <div className="flex flex-col p-3 bg-purple-500 shadow w-60">
+                <div className="flex flex-col p-3 bg-blue-600 shadow w-64">
                     <Sidebar />
                 </div>
                 <div className="w-full h-full overflow-y-auto relative">
-                    <div className="text-center flex justify-between right-0 left-0 bg-gray-100 py-3">
-                        <p>{user?.name}</p>
+                    <div className="text-center flex justify-between right-0 left-0 bg-blue-600 py-3 px-5">
+                        <p className="text-white">{user?.name}</p>
                         <Link
                             href={route("logout")}
                             method="post"
                             as="button"
                             type="button"
-                            className="bg-red-200"
+                            className="bg-yellow-400 px-5 py-1 text-white rounded-lg"
                         >
                             Logout
                         </Link>
