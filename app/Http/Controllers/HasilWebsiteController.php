@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,7 +15,9 @@ class HasilWebsiteController extends Controller
      */
     public function index()
     {
-        return Inertia::render('HasilWebsite');
+
+        $pendaftarans = Pendaftaran::all();
+        return Inertia('HasilWebsite', compact('pendaftarans'));
     }
 
     /**
@@ -33,6 +36,22 @@ class HasilWebsiteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function search(Request $request)
+    {
+        $term = $request->query('term');
+
+        $data = Pendaftaran::where('name', 'like', '%' . $term . '%')->get();
+
+        return response()->json($data);
+    }
+
+    public function detail($id)
+    {
+        $data = Pendaftaran::find($id);
+
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         //

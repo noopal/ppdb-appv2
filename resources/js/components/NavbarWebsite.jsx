@@ -12,9 +12,7 @@ const NavbarWebsite = ({ user }) => {
     const navbarLinks = [
         { id: 1, link: "home" },
         { id: 2, link: "jurusan" },
-        { id: 3, link: "berita" },
         { id: 4, link: "profil sekolah" },
-        { id: 5, link: "berita" },
     ];
     return (
         <div className="flex justify-between items-center w-full h-20 text-white bg-blue-600 fixed p-4">
@@ -69,12 +67,20 @@ const NavbarWebsite = ({ user }) => {
                     })}
                 </ul>
             )}
-            <InertiaLink
-                className="bg-yellow-400 rounded-lg px-6 py-2"
-                href={route("pendaftaran.index")}
-            >
-                Daftar PPDB
-            </InertiaLink>
+            <div className="flex flex-row gap-4 items-center">
+                <InertiaLink
+                    className="px-4 cursor-pointer capitalize font-medium text-white-500"
+                    href={route("hasil.index")}
+                >
+                    Hasil Pendaftaran
+                </InertiaLink>
+                <InertiaLink
+                    className="bg-yellow-400 rounded-lg px-6 py-2"
+                    href={route("pendaftaran.index")}
+                >
+                    Daftar PPDB
+                </InertiaLink>
+            </div>
         </div>
     );
 };

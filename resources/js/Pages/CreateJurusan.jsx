@@ -194,8 +194,8 @@ const CreateJurusan = ({ errors, editJurusans }) => {
                                         ? buttonDisabledUpdate()
                                         : buttonDisabled()
                                 )
-                                    ? "bg-blue-200"
-                                    : "bg-blue-500"
+                                    ? "bg-yellow-200"
+                                    : "bg-yellow-400"
                             }`}
                             disabled={
                                 editJurusans

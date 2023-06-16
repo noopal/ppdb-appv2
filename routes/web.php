@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DaftarPendaftaranController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\HasilWebsiteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JurusanController;
@@ -61,6 +62,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     /* Pendaftaran Siswa Controller */
 });
 Route::resource('/pendaftaran', PendaftaranController::class);
-Route::resource('/hasil', HasilWebsiteController::class);
+Route::resource('/hasil', HasilWebsiteController::class, [
+    'except' => ['create', 'store', 'show', 'edit', 'update', 'destroy']
+]);
+
+Route::get('/search', [DataController::class, 'search']);
+Route::get('/data/{id}', [DataController::class, 'getData']);
+
+// Route::get('/search', HasilWebsiteController::class);
 // // routes/web.php
 // Route::post('/logout', 'AuthenticatedSessionController@destroy ')->name('logout');

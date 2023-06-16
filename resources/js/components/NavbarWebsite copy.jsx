@@ -5,7 +5,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-scroll";
 
 const NavbarWebsiteCopy = ({ user }) => {
-    console.log("pendaftaran siswa", user);
+    // console.log("pendaftaran siswa", user);
     const [hamburger, setHamburger] = React.useState(false);
 
     //array untuk navbar links
